@@ -1,16 +1,16 @@
-//: Personal Research
+/*:
+ 
+ ## Swift Retention Cycle in Closures and Delegate with Bob
+ Full tutotiral originally published on Bob the Developer by Bob Lee
+ - Last Update on April 1st, 2017
+ - Swift 3 & iOS 10
+ 
+ */
 
-// You can’t create lazy let instance properties in Swift to provide constants that would only be computed if accessed 😢. That’s due to the implementation details of lazy which requires the property to be modifiable because it’s somehow initialized without a value and then later changed to the value when it’s accessed1.
-
-// Immediately-applied closures, like the one used for the default values of lazy variables above, are automatically @noescape. This means that there is no need to use [unowned self] in that closure: there won’t even be a reference cycle here.
-
-
-// Introduce @escaping and @noescaping
 
 import UIKit
 
-//: Init with Closure
-
+//: Motivation
 let box: UIView = {
   let view = UIView()
   return view
@@ -18,6 +18,7 @@ let box: UIView = {
 
 
 
+//: Create UI Components
 
 let buttonSize = CGRect(x: 0, y: 0, width: 100, height: 100)
 
@@ -33,7 +34,7 @@ bobbyButton.backgroundColor = .black
 bobbyButton.titleLabel?.text = "Bobby"
 bobbyButton.titleLabel?.textColor = .white
 
-
+//: Create Button with Function
 func createButton(enterTitle: String) -> UIButton {
   let button = UIButton(frame: buttonSize)
   button.backgroundColor = .black
@@ -43,21 +44,19 @@ func createButton(enterTitle: String) -> UIButton {
 createButton(enterTitle: "Yoyo")
 
 
-//: Create Array 
-
-
+//: Introducing Unconventional Way
 struct Human {
   init() {
     print("Born 1996")
   }
 }
 
-let bob = { () -> Human in
+let createBob = { () -> Human in
   let human = Human()
   return human
 }
 
-let bobInstance = bob()
+let bobInstance = createBob()
 
 
 
@@ -68,37 +67,34 @@ let bobby = { () -> Human in
 
 
 
+//: Creat UIView Unconventionally
+let bobView = { () -> UIView in
+  let view = UIView()
+  view.backgroundColor = .black
+  return view
+}()
+
+let bobbyView: UIView = {
+  let view = UIView()
+  view.backgroundColor = .black
+  return view
+}()
 
 
-
-
-
-
-
-let SJButton: UIButton = {
+//: Easier to Change Name
+let myButton: UIButton = {
   let button = UIButton(frame: buttonSize)
   button.backgroundColor = .black
   button.titleLabel?.text = "Button"
   button.titleLabel?.textColor = .white
+  button.layer.cornerRadius = 3
+  button.layer.masksToBounds = true
   return button
 }()
 
 
 bobButton.backgroundColor = .red
 bobButton.backgroundColor
-
-
-let newButton = { () -> UIButton in
-  let button = UIButton(frame: buttonSize)
-  button.backgroundColor = .black
-  button.titleLabel?.text = "Button"
-  button.titleLabel?.textColor = .white
-  return button
-}
-
-
-newButton()
-
 
 
 
@@ -111,18 +107,13 @@ let leeButton = { (enterName: String) -> UIButton in
 
 leeButton("Lee")
 
-let koreaButton = { (enterName: String) -> UIButton in
-  let button = UIButton(frame: buttonSize)
-  button.titleLabel?.text = enterName
-  return button
-}("Korea")
 
 //: Lazy
 
 
 class IntenseMathProblem {
   lazy var complexNumber: Int = {
-    999 * 999
+    1 * 1
   }()
   
 }
@@ -151,13 +142,13 @@ IntenseMathProblem().complexNumber
 // Calculated later
 
 
-class BobClass {
+class BobGreet {
   var name = "Bob the Developer"
   //  lazy var personalizedGreeting: String = {
   //    [unowned self] in
   //    return "Hello, \(self.name)!"
   //    }()
-  lazy var personalizedgreeting: String = {
+  lazy var greeting: String = {
     return "Hello, \(self.name)"
   }()
   
@@ -168,12 +159,14 @@ class BobClass {
   }
 }
 
-var bobClass: BobClass? = BobClass()
-bobClass?.personalizedgreeting
-bobClass = nil
+var bobGreet: BobGreet? = BobGreet()
+bobGreet?.greeting
+bobGreet = nil
 
 
-
+/*:
+ > Follow me on [Instagram](https://instagram.com/bobthedev) and [Facebook Page](https://facebook.com/bobthedeveloper) for personal journey and regular updates! All of my free resources available [here](https://learnswiftwithbob.com/RESOURCES.html)
+ */
 
 
 
